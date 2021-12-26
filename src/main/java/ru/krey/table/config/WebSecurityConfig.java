@@ -34,10 +34,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements W
     @Autowired
     private LoginSuccessHandler loginHandler;
 
-    @Bean
-    public PasswordEncoder getPasswordEncoder(){
-        return new BCryptPasswordEncoder(8);
-    }
+//    @Bean
+//    public PasswordEncoder getPasswordEncoder(){
+//        return new BCryptPasswordEncoder(8);
+//    }
 
 
     @Override
