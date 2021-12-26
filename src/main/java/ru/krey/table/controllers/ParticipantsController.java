@@ -6,6 +6,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import ru.krey.table.model.Participant;
 import ru.krey.table.repos.ParticipantRepo;
 import ru.krey.table.service.UserService;
 
@@ -26,12 +27,12 @@ public class ParticipantsController {
 
     @GetMapping
     public String allUsers(Model model){
-        var currentUser = participantRepo.findByLogin(getCurrentUserLogin());
+        Participant currentUser = participantRepo.findByLogin(getCurrentUserLogin());
         if(currentUser==null || !currentUser.isStatus()){
             SecurityContextHolder.clearContext();
             return "redirect:/login";
         }
-        var all = participantRepo.findAll();
+        List<Participant> all = participantRepo.findAll();
         model.addAttribute("all",all);
         return "users";
     }
@@ -42,7 +43,7 @@ public class ParticipantsController {
         if(!checkCurrentUser()){
             return "redirect://";
         }
-        for(var l : logins){
+        for(String l : logins){
             userService.blockParticipant(l);
         }
         return "redirect://";
@@ -54,7 +55,7 @@ public class ParticipantsController {
         if(!checkCurrentUser()){
             return "redirect://";
         }
-        for(var l:logins){
+        for(String l:logins){
             userService.unblockParticipant(l);
         }
         return "redirect://";
@@ -66,7 +67,7 @@ public class ParticipantsController {
         if(!checkCurrentUser()){
             return "redirect://";
         }
-        for(var l:logins){
+        for(String l:logins){
             userService.removeParticipant(l);
         }
         return "redirect://";
@@ -78,7 +79,7 @@ public class ParticipantsController {
     }
 
     public boolean checkCurrentUser(){
-        var u = participantRepo.findByLogin(getCurrentUserLogin());
+        Participant u = participantRepo.findByLogin(getCurrentUserLogin());
         return u != null && u.isStatus();
     }
 }
