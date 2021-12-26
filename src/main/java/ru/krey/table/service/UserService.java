@@ -70,6 +70,20 @@ public class UserService implements UserDetailsService {
         return true;
     }
 
+    public boolean changeRoleParticipant(String login){
+        Participant p = repo.findByLogin(login);
+        if(p==null){
+            return false;
+        }
+
+        if (p.getRoles().contains(Role.USER)) {
+            p.setRoles(Collections.singleton(Role.ADMIN));
+        } else {
+            p.setRoles(Collections.singleton(Role.USER));
+        }
+        return true;
+    }
+
     private boolean changeStatus(String login,boolean status){
         Participant participant = repo.findByLogin(login);
         if(participant == null){
