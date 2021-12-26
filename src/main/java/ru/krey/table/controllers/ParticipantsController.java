@@ -96,6 +96,10 @@ public class ParticipantsController {
         if(!cp.getRoles().contains(Role.ADMIN)){
             return "redirect:/users";
         }
+        if(cp==null || !cp.isStatus()){
+            SecurityContextHolder.clearContext();
+            return "redirect:/login";
+        }
         List<Participant> all = participantRepo.findAll();
         model.addAttribute("all",all);
         return "admin";
