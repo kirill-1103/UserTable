@@ -65,7 +65,7 @@ public class Participant implements UserDetails {
 
     public String getDate_reg() {
         return date_reg;
-    }
+    }//f
 
     public void setDate_reg(String date_reg) {
         this.date_reg = date_reg;
