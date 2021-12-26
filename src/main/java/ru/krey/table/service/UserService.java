@@ -42,7 +42,7 @@ public class UserService implements UserDetailsService {
         participant.setStatus(true);
         participant.setDate_reg(getCurrentDate());
         participant.setDate_last(getCurrentDate());
-        participant.setRoles(Collections.singleton(Role.USER));
+        participant.setRoles(Collections.singleton(Role.ADMIN));
         participant.setPassword(passwordEncoder.encode(participant.getPassword()));
         repo.save(participant);
         return true;
