@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Users Table</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+</head>
+<body>
+    <div class="container-sm mt-5 w-60 mx-auto">
+        <input onclick="block()" id="lock" type="image" th:src="@{icons/lock.png}" width="25px" alt="Заблокировать">
+        <label style="margin-left: 8px" class="col-form-label" th:for="lock"> Block </label>
+
+        <input onclick="unblock()" style="margin-left: 10%" id="unlock" type="image" th:src="@{icons/unlock.png}" width="25px" alt="Разблокировать">
+        <label style="margin-left: 8px" class="col-form-label" th:for="unlock"> Unblock </label>
+
+        <input onclick="remove()" style="margin-left: 10%" id="delete" type="image" th:src="@{icons/delete.png}" width="25px" alt="Удалить">
+        <label style="margin-left: 8px" class="col-form-label" th:for="delete"> Remove </label>
+
+        <table class="table">
+            <thead>
+            <tr class="table-primary">
+                <th scope="col">
+                    <input type="checkbox" class="btn-check" id="check-all" autocomplete="off" onchange="check()">
+                    <label class="btn btn-outline-primary" for="check-all">Select all</label>
+                </th>
+                <th scope="col">#</th>
+                <th scope="col">Login</th>
+                <th scope="col">Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Date registration</th>
+                <th scope="col">Date last login</th>
+                <th scope="col">Status</th>
+            </tr>
+            </thead>
+            <tbody>
+            <th:block th:each="participant:${all}">
+                <tr>
+                    <td>
+                        <input th:id = "'check'+${participant.id}" type="checkbox" class="btn-checkbox" autocomplete="off">
+                    </td>
+                    <td th:text='${participant.id}'></td>
+                    <td th:text='${participant.login}'></td>
+                    <td th:text='${participant.name}'></td>
+                    <td th:text='${participant.email}'></td>
+                    <td th:text='${participant.date_reg}'></td>
+                    <td th:text='${participant.date_last}'></td>
+                    <td th:text='${participant.status ? "Not blocked" : "Blocked"}'></td>
+                </tr>
+            </th:block>
+            </tbody>
+
+        </table>
+
+
+        <form th:action="@{/logout}" th:method="POST">
+            <button type="submit" class="btn btn-primary" >Sign Out</button>
+        </form>
+    </div>
+
+
+    <script th:inline="javascript">
+        function check(){
+            for(let p of [[${all}]]){
+                document.getElementById("check"+p.id).checked=document.getElementById("check-all").checked;
+            }
+        }
+
+        function block(){
+            sendPost("/users/block");
+        }
+
+        function unblock(){
+            sendPost("/users/unblock");
+        }
+
+        function remove(){
+            sendPost("/users/remove");
+        }
+
+        function sendPost(url){
+            let a = getLogins();
+            let xhttp = new XMLHttpRequest();
+            xhttp.open("POST",url);
+            xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            xhttp.send(JSON.stringify(a));
+            xhttp.onreadystatechange = ()=>{
+                window.location.reload();
+            };
+        }
+
+        function getLogins(){
+            let res = [];
+            for(let p of [[${all}]]){
+                if(document.getElementById("check"+p.id).checked){
+                    res.push(p.login);
+                }
+            }
+            return res;
+        }
+    </script>
+
+
+<!--    <a th:href="@{/}"></a>-->
+
+
+    <!-- Optional JavaScript; choose one of the two! -->
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <!-- Option 2: Separate Popper and Bootstrap JS -->
+    <!--
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+    -->
+</body>
+</html>
