@@ -29,8 +29,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements W
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    @Autowired    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private LoginSuccessHandler loginHandler;
