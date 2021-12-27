@@ -16,12 +16,6 @@ public class DefaultController {
 
     @GetMapping("/")
     public String getDefault(){
-//        final List<Object> allPrincipals = sessionRegistry.getAllPrincipals();
-//        for(Object principal : allPrincipals){
-//            if(principal instanceof Participant){
-//                Participant participant = (Participant) principal;
-//            }
-//        }
         return "redirect:/users";
     }
 }

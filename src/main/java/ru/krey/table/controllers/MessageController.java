@@ -13,7 +13,6 @@ import ru.krey.table.model.Participant;
 import ru.krey.table.repos.ParticipantRepo;
 import ru.krey.table.service.MessageService;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -21,8 +20,6 @@ import java.util.Date;
 @RequestMapping(value ="/message")
 public class MessageController {
 
-//    @Autowired
-//    ParticipantRepo participantRepo;
 
     @Autowired
     MessageService service;

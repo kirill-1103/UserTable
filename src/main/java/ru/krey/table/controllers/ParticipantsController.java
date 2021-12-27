@@ -53,6 +53,7 @@ public class ParticipantsController {
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/block")
     public String block(@RequestBody String[] logins){
+
         if(!checkCurrentUser()){
             return "redirect://";
         }

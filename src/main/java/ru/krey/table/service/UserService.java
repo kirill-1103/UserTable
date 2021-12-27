@@ -81,6 +81,7 @@ public class UserService implements UserDetailsService {
         } else {
             p.setRoles(Collections.singleton(Role.USER));
         }
+        repo.save(p);
         return true;
     }
 
@@ -90,6 +91,7 @@ public class UserService implements UserDetailsService {
             return false;
         }
         participant.setStatus(status);
+        repo.save(participant);
         return true;
     }
 
